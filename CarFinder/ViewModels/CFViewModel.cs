@@ -63,9 +63,9 @@ namespace CarFinder.ViewModels
                         Elements["Рік моделі"].Value = info.model_year.ToString();
                         Elements["Новий код"].Value = info.region.new_code;
                         Elements["Старий код"].Value = info.region.old_code;
-                        Elements["Викрадена"].Value = info.is_stolen ? "Tak" : "Hi";
+                        Elements["У розшуку"].Value = info.is_stolen ? "Tak" : "Hi";
                         Elements["Тип"].Value = info.operations[^1].kind.ua;
-                        Elements["Адрес"].Value = info.operations[^1].address;
+                        Elements["Адресca"].Value = info.operations[^1].address;
                         Elements["Відділ"].Value = info.operations[^1].department;
                         Elements["Реєстрація"].Value = info.operations[^1].registered_at;
                         Elements["Остання операція"].Value = info.operations[^1].operation.ua;
@@ -75,7 +75,16 @@ namespace CarFinder.ViewModels
                         carComments = info.comments;
                         OnPropertyChanged(nameof(CarComments));
                     }
-                    else MessageBox.Show(response?.Status.ToString());
+                    else
+                    {
+                        string message = response?.Status switch
+                        {
+                            HttpStatusCode.NotFound =>"За вишим запитом інформації не знайдено",
+                            HttpStatusCode.Unauthorized => " Сервер не авторизований...Не вірний ключ ...",
+                            _ => $" Повідомлення сервера \"{response?.Status}\""
+                        };
+                        MessageBox.Show(message);
+                    }
                 }
                 
             }
@@ -128,9 +137,9 @@ namespace CarFinder.ViewModels
                 { "Область", new() },
                 { "Старий код", new() },
                 { "Новий код", new() },
-                { "Викрадена", new() },
+                { "У розшуку", new() },
                 { "Зареестрована на компанію", new() },
-                { "Адрес", new() },
+                { "Адресca", new() },
                 { "Відділ", new() },
                 { "Реєстрація", new() },
                 { "Остання операція", new() },

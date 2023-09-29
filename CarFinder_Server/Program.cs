@@ -49,7 +49,7 @@ namespace CarFinder_Server
                 string? json = await reader.ReadLineAsync();
                 ServerData? sdata =  JsonSerializer.Deserialize<ServerData>(json);
                
-                Console.WriteLine($"Resived to find : \"{sdata?.CarFindString}\"  from {client.Client.RemoteEndPoint}");
+                Console.WriteLine($"Resived to find by {(sdata.IsCarNumber?"number":"VIN")} : \"{sdata?.CarFindString}\"  from {client.Client.RemoteEndPoint}");
                 ClientData data = new();
                 string selector = sdata.IsCarNumber ? @"/nomer/" : @"/vin/";
                 using HttpRequestMessage request = new(HttpMethod.Get, url + selector + sdata?.CarFindString);
