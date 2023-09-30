@@ -77,10 +77,6 @@ namespace CarFinder_Server
                 Console.WriteLine($"Client {client.Client.RemoteEndPoint} disconnected");
                 writer?.Close();
                 reader?.Close();
-                client.Close();
-                writer?.Dispose();
-                reader?.Dispose();
-                client.Dispose();
             }
         }
     }
